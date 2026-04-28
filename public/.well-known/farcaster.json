@@ -1,4 +1,9 @@
 {
+  "accountAssociation": {
+    "header": "eyJmaWQiOjExMDAwMjcsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHhFZTAxNmZFNTI5NDMxNjU1QzNiYzJENzc0ZTBCQjA2MWY0ZmY4ZDFhIn0",
+    "payload": "eyJkb21haW4iOiJhYnNpYy52ZXJjZWwuYXBwIn0",
+    "signature": "4AFhYaLJMOCOu8efrftB0OWczFLLf5ukne9Gb+wc1ysJEFwSbPQmBaH3kCbyLEqkPMtRt4FB1grGw175HUvDMRs="
+  },
   "frame": {
     "name": "Absic",
     "version": "1",
