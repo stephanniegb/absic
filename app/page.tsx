@@ -1,6 +1,61 @@
+"use client";
 import Image from "next/image";
+import { useEffect } from "react";
+import { sdk } from "@farcaster/miniapp-sdk";
+
+import {
+  PaymentModal,
+  Chains,
+  usePaymentModal,
+  type Chain,
+} from "@chainrails/react";
 
 export default function Home() {
+  useEffect(() => {
+    sdk.actions.ready().catch(() => {});
+
+    function getEthereumProvider(): any | null {
+      if (typeof window === "undefined") return null;
+      const ethereum = (window as any).ethereum ?? null;
+      if (ethereum) {
+        return ethereum;
+      }
+      return null;
+    }
+
+    console.log("getEthereumProvider", getEthereumProvider());
+  }, []);
+
+  const cr = usePaymentModal({
+    sessionToken: null,
+    amount: "0.1",
+    onCancel: () => {
+      console.log("Payment cancelled");
+    },
+    onSuccess: (result?: { transactionHash?: string }) => {
+      console.log(result);
+      const hash = result?.transactionHash ?? "n/a";
+      console.log("Payment successful", hash);
+      void sdk.haptics.notificationOccurred("success").catch(() => {});
+    },
+  });
+
+  async function pay() {
+    try {
+      const res = await fetch(
+        `https://chainrails-sdk-server.vercel.app/test/create-session?amount=${encodeURIComponent("0.1")}&destinationChain=${Chains.BASE}&recipient=${"0xda3ecb2e5362295e2b802669dd47127a61d9ce54"}&token=${"USDC"}`,
+      );
+
+      const data = await res.json();
+      cr.updateSession(data);
+      cr.open();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(message);
+    } finally {
+    }
+  }
+
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -34,6 +89,14 @@ export default function Home() {
             center.
           </p>
         </div>
+        <button onClick={pay}>Pay</button>
+        <button
+          onClick={async () => {
+            console.log(await sdk.wallet.getEthereumProvider());
+          }}
+        >
+          test
+        </button>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
             className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
@@ -59,6 +122,7 @@ export default function Home() {
             Documentation
           </a>
         </div>
+        <PaymentModal {...cr} env="internal" />
       </main>
     </div>
   );
