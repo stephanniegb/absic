@@ -1,0 +1,15 @@
+{
+  "frame": {
+    "name": "Absic",
+    "version": "1",
+    "iconUrl": "https://absic.vercel.app/icon.png",
+    "homeUrl": "https://absic.vercel.app",
+    "imageUrl": "https://absic.vercel.app/image.png",
+    "splashImageUrl": "https://absic.vercel.app/splash.png",
+    "splashBackgroundColor": "#6200ea",
+    "webhookUrl": "https://absic.vercel.app/api/webhook",
+    "subtitle": "for tired folks",
+    "description": "ewww",
+    "primaryCategory": "social"
+  }
+}
