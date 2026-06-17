@@ -122,7 +122,7 @@ export default function Home() {
             Documentation
           </a>
         </div>
-        <PaymentModal {...cr} env="internal" />
+        <PaymentModal {...cr} />
       </main>
     </div>
   );
