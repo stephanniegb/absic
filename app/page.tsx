@@ -42,9 +42,13 @@ export default function Home() {
 
   async function pay() {
     try {
-      const res = await fetch(
-        `https://chainrails-sdk-server.vercel.app/test/create-session?amount=${encodeURIComponent("0.1")}&destinationChain=${Chains.BASE}&recipient=${"0xda3ecb2e5362295e2b802669dd47127a61d9ce54"}&token=${"USDC"}`,
-      );
+      // To switch environments, uncomment one URL and comment out the other:
+      //dev
+      // const url = `https://chainrails-sdk-server.vercel.app/test/create-session?amount=${encodeURIComponent("0.1")}&destinationChain=${Chains.BASE}&recipient=${"0xda3ecb2e5362295e2b802669dd47127a61d9ce54"}&token=${"USDC"}`;
+
+      //prod
+      const url = `https://chainrails-sdk-server-nu.vercel.app/session?amount=${encodeURIComponent("0.1")}&destinationChain=${Chains.BASE}&recipient=${"0xda3ecb2e5362295e2b802669dd47127a61d9ce54"}&token=${"USDC"}`;
+      const res = await fetch(url);
 
       const data = await res.json();
       cr.updateSession(data);
